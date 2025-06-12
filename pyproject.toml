@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "mujoco-env"
+version = "0.1.0"
+description = ""
+authors = ["Brandon"]
+readme = "README.md"
+packages = [{include = "mujoco_env"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10.1,<=3.10.12"
+numpy = ">=1.23.5,<1.24.0"
+scipy = "^1.15.3"
+matplotlib = "^3.10.3"
+seaborn = "^0.13.2"
+pandas = "^2.3.0"
+ray = {extras = ["rllib"], version = "^2.46.0"}
+torch = "^2.7.1"
+gymnasium = {version = "<=1.1", extras = ["accept-rom-license", "atari", "mujoco"]}
+urllib3 = "<=2.0.0"
+torchvision = "^0.22.1"
+tqdm = "^4.67.1"
+mlagents = "^1.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
