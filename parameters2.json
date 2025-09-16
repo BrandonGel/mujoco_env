@@ -1,0 +1,64 @@
+{
+  "unityParams":
+  {
+    "seed": 42,  
+    "timescale": 1, 
+    "fixed_timestep": 0.02,
+    "max_allowable_num_agents": 2048,
+    "max_allowable_num_tasks": 2048
+  },
+  "agentParams":
+  {
+    "num_of_agents": 1,
+    "min_spacing": 0.1,
+    "num_spawn_tries": 10000,
+    "maxSpeed": 0.7,
+    "maxRotationSpeed": 2.11,
+    "maxAcceleration": 2.72,
+    "maxRotationAccleration": 8.23,
+    "velocityControl": true,
+    "absoluteCoordinate": false,
+    "debugArrow": false,
+    "maxTimeSteps": 5001,
+    "decisionPeriod": 5,
+    "rewardParams":
+    {
+      "collisionEnterReward": -10,
+      "collisionStayReward": -0.05,
+      "timeReward": -2,
+      "goalReward": 1
+    }
+  },
+  "goalParams":
+  {
+    "n_tasks": 2,
+    "task_freq": 1,
+    "task_mode": "EarlyStart",
+    "goals":
+    [
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      },
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      }
+    ],
+    "starts":
+    [
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      },
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      }
+    ]
+  }
+}
