@@ -6,7 +6,8 @@ import numpy as np
 import time
 
 # env_name = '/home/brandon-ho/Documents/code/mujoco_env/environment/single_agent/env.x86_64'
-env_name = '/home/brandon-ho/Documents/code/mujoco_env/environment/multi_agent/env2.x86_64'
+env_name = 'environment/multi_agent/env2.x86_64'
+
 # env_name = '/home/brandon-ho/Documents/code/mujoco_env/environment/multi_agent/env3.x86_64'
 print('help me')
 unity_env = UnityEnvironment(env_name)
@@ -34,8 +35,7 @@ num_cycles=1000
 #     else:
 #         action = env.action_spaces[agent].sample() 
 #     env.step(action)
-# print(observation['Robot?team=0?agent_id=0'][0].shape)
-# print(observation['Robot?team=0?agent_id=0'][0])
+
 action_len = action_spaces[agent_ids[0]].shape
 for ii in range(num_cycles):
     actions = {a:np.random.uniform(low=-1.0, high=1.0, size=action_spaces[a].shape) for a in action_spaces}
@@ -49,6 +49,9 @@ for ii in range(num_cycles):
         # actions[a][2::3] = 0
         # actions[a] = action.flatten()
     observation, reward, done, info =  env.step(actions)
+    isDone = ii 
+    if isDone:
+        observation = env.reset()
     # print(actions)
 env.close()
 # for agent in env.agent_iter():

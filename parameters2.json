@@ -5,11 +5,13 @@
     "timescale": 1, 
     "fixed_timestep": 0.02,
     "max_allowable_num_agents": 2048,
-    "max_allowable_num_tasks": 2048
+    "max_allowable_num_tasks": 2048,
+    "num_envs": 4,
+    "useCSVExporter": false
   },
   "agentParams":
   {
-    "num_of_agents": 1,
+    "num_of_agents": 32,
     "min_spacing": 0.1,
     "num_spawn_tries": 10000,
     "maxSpeed": 0.7,
@@ -19,6 +21,7 @@
     "velocityControl": true,
     "absoluteCoordinate": false,
     "debugArrow": false,
+    "safetyRadius": 1.0,
     "maxTimeSteps": 5001,
     "decisionPeriod": 5,
     "rewardParams":
@@ -27,6 +30,13 @@
       "collisionStayReward": -0.05,
       "timeReward": -2,
       "goalReward": 1
+    },
+    "rayParams":
+    {
+      "rayLength": 25.0,
+      "rayDirections": 18,
+      "sphereCastRadius": 0.5,
+      "maxRayDegrees": 90
     }
   },
   "goalParams":
