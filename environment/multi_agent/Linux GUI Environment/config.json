@@ -1,0 +1,9 @@
+{
+  "filepath":  "parameters.json",
+  "envpath":  "env.json",
+  "imagepath":  "Processed_image.png",
+  "schedulepath":  "schedule.json",
+  "csvfolder":  "data",
+  "mode": "generate_paramjson",
+  "world_mode": "image"
+}

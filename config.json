@@ -1,3 +1,9 @@
 {
-  "filepath":  "/home/brandon-ho/Documents/unity_env/MultiAgentWarehouse/parameters.json"
+  "filepath":  "config/parameters.json",
+  "envpath":  "config/env.json",
+  "imagepath":  "config/Processed_image.png",
+  "schedulepath":  "config/schedule.json",
+  "csvfolder":  "data",
+  "mode": "download",
+  "world_mode": "image"
 }

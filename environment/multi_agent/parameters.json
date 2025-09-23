@@ -1,42 +1,76 @@
 {
-  "num_of_agents": 1,
-  "num_spawn_tries": 100,
-  "maxSpeed": 7,
-  "maxRotationSpeed": 2.11,
-  "maxAcceleration": 2.72,
-  "maxRotationAccleration": 8.23,
-  "velocityControl": true,
-  "absoluteCoordinate": false,
-  "seed": 42,
-  "maxTimeSteps": 5001,
-  "decisionPeriod": 1,
+  "unityParams":
+  {
+    "seed": 42,  
+    "timescale": 5, 
+    "fixed_timestep": 0.02,
+    "num_envs": 1,
+    "useCSVExporter": false,
+    "normalizeObservations" : false,
+    "verbose": true
+  },
+  "agentParams":
+  {
+    "num_of_agents": 16,
+    "min_spacing": 0.1,
+    "num_spawn_tries": 10000,
+    "maxSpeed": 0.7,
+    "maxRotationSpeed": 2.11,
+    "maxAcceleration": 2.72,
+    "maxRotationAccleration": 8.23,
+    "velocityControl": true,
+    "absoluteCoordinate": false,
+    "debugArrow": false,
+    "safetyRadius": 1.0,
+    "maxTimeSteps": 5001,
+    "decisionPeriod": 5,
+    "verbose": true,
+    "rewardParams":
+    {
+      "collisionEnterReward": -10,
+      "collisionStayReward": -0.05,
+      "timeReward": -2,
+      "goalReward": 1
+    },
+    "rayParams":
+    {
+      "rayLength": 25.0,
+      "rayDirections": 18,
+      "sphereCastRadius": 0.5,
+      "maxRayDegrees": 180
+    }
+  },
   "goalParams":
   {
-    "num_of_goals": 2,
-    "task_frequency": 1,
-    "dropPalette":
-    {
-      "goalWait": [1,2],
-      "goalWaitProbability": [0,0],
-      "goalWaitPenalty": [0,0]
-    },
-    "getbattery":
-    {
-      "goalWait": [1,2],
-      "goalWaitProbability": [0,0],
-      "goalWaitPenalty": [0,0]
-    },
-    "getPalette":
-    {
-      "goalWait": [1,2],
-      "goalWaitProbability": [0,0],
-      "goalWaitPenalty": [0,0]
-    },
-    "dropBattery":
-    {
-      "goalWait": [1,2],
-      "goalWaitProbability": [0,0],
-      "goalWaitPenalty": [0,0]
-    }
+    "n_tasks": 2,
+    "task_freq": 1,
+    "task_mode": "",
+    "verbose": false,
+    "goals":
+    [
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      },
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      }
+    ],
+    "starts":
+    [
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      },
+      {
+        "goalWait": [1,2],
+        "goalWaitProbability": [0,0],
+        "goalWaitPenalty": [0,0]
+      }
+    ]
   }
 }

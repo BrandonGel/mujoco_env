@@ -21,6 +21,13 @@ torch = {version = "2.4.1", source = "torch"}
 torchvision = {version = "0.19.1", source = "torch"}
 torchaudio = {version = "2.4.1", source = "torch"}
 pettingzoo = "1.15"
+ray = {extras = ["tune"], version = "^2.49.2"}
+tree = "^0.2.4"
+dm-tree = "^0.1.9"
+lz4 = "^4.4.4"
+gputil = "^1.4.0"
+ipykernel = "^6.30.1"
+python-motion-planning = "^1.1.1"
 
 [[tool.poetry.source]]
 name = "torch"
