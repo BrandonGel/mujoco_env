@@ -68,7 +68,7 @@ dependencies:
   - pyopenssl=25.0.0
   - pyproject_hooks=1.0.0
   - pysocks=1.7.1
-  - python=3.11.13
+  - python=3.10.12
   - python-build=0.10.0
   - python-installer=0.6.0
   - rapidfuzz=3.12.1
