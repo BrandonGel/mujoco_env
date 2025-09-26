@@ -7,7 +7,7 @@
     "num_envs": 1,
     "useCSVExporter": false,
     "normalizeObservations" : false,
-    "verbose": true
+    "verbose": false
   },
   "agentParams":
   {
@@ -24,7 +24,7 @@
     "safetyRadius": 1.0,
     "maxTimeSteps": 10001,
     "decisionPeriod": 5,
-    "verbose": true,
+    "verbose": false,
     "rewardParams":
     {
       "collisionEnterReward": -10,

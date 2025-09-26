@@ -1,14 +1,15 @@
-from mujoco_env.environment.unity_petting_zoo import UnityPettingZooParallelEnv
+from unity_python_env.environment.unity_petting_zoo import UnityPettingZooParallelEnv
 import numpy as np
 import json
 import unittest 
 import python_motion_planning as pmp
+from unity_python_env.controller.get_controller import get_controller
 linux_gui_env_name = 'environment/multi_agent/Linux GUI Environment/LinuxGUIEnv.x86_64'
 linux_server_env_name = 'environment/multi_agent/Linux Server Environment/LinuxServerEnv.x86_64'
 
 
-# env = UnityPettingZooParallelEnv(linux_gui_env_name)
-env = UnityPettingZooParallelEnv(linux_server_env_name)
+env = UnityPettingZooParallelEnv(linux_gui_env_name)
+# env = UnityPettingZooParallelEnv(linux_server_env_name)
 obs =env.reset()
 
 
@@ -25,57 +26,8 @@ envPMPMap.update(obstacles)
             
 dt = env.agent_dt
 
-# for i in range(1000):
-#     actions = {a:env.action_space(a).sample()*0 for a in env.env_id}
-#     for env_id in env.env_id:
-#         target = obs[env_id]['target']
-#         for ii,assign in enumerate(target[:,0]>0):
-#             if not assign:
-#                 continue
-#             if astarList[env_id][ii][0]==0:
-#                 start = np.round(obs[env_id]['agent'][ii,:2]).astype(int)
-#                 goal = np.round(target[ii,1:3]).astype(int)
-#                 planner = pmp.AStar(start=tuple(start), goal=tuple(goal), env=envPMPMap)   # create planner
-#                 cost, path, expand = planner.plan()  
-#                 astarList[env_id][ii] = (cost,list(reversed(path)),0)
-#                 # planner.plot.animation(path, str(planner), cost, expand)
-#             if astarList[env_id][ii][0]>0:
-#                 path = astarList[env_id][ii][1]
-#                 pathInd = astarList[env_id][ii][2]
-#                 current_pos = obs[env_id]['agent'][ii,:2]
-#                 current_angle = obs[env_id]['agent'][ii,2]
-#                 diff = path[pathInd+1]-current_pos
-#                 desired_angle = np.arctan2(diff[1],diff[0])*180/np.pi
-
-#                 diffAngle = desired_angle - current_angle
-#                 diffAngle = (diffAngle + 180) % 360 -180
-#                 if(abs(diffAngle)> 5):
-#                     actions[env_id][3*ii+1] = -diffAngle/180
-#                 else:
-#                     mag = np.linalg.norm(diff,axis=-1)
-#                     actions[env_id][3*ii] = 1
-#                     if mag < 0.1:
-                        
-#                         astarList[env_id][ii] = (astarList[env_id][ii][0],path,pathInd+1)
-#                         if pathInd+1 >= len(path)-1:
-#                             astarList[env_id][ii] = (0,None,0)
-
-#     obs, rewards, dones, infos = env.step(actions)
-
-
-
-env.close()
-
-control_factory = pmp.ControlFactory()
-ii = 0
-for env_id in env.env_id:
-    target = obs[env_id]['target']
-    start = np.round(obs[env_id]['agent'][ii,:3]).astype(int)
-    goal = np.round(target[ii,1:3]).astype(int)
-    goal = np.array([goal[0],goal[1],0])
 
 agentParams = env.param['agentParams']
-
 params = {
     "TIME_STEP": dt,
     "MAX_ITERATION": 10000,
@@ -94,10 +46,103 @@ params = {
     "MIN_W_INC":-1000,
     "MIN_W": -agentParams['maxRotationSpeed'],
     "MAX_W": agentParams['maxRotationSpeed'],
+    "k_v_p": 1.0,
+    "k_v_i": 0.1,
+    "k_v_d": 0.1,
+    "k_w_p": 1.0,
+    "k_w_i": 0.1,
+    "k_w_d": 0.1,
+    "k_theta": 0.75,
     # "GOAL_DIST_TOL": 0.5,
     # "ROTATE_TOL": 5.0 * np.pi / 180.0,
 }
-# planner = control_factory("pid", start=start, goal=goal, env=envPMPMap,TIME_STEP=dt,MAX_ITERATION=MAX_ITERATION)
-planner = control_factory("rpp", start=start, goal=goal, env=envPMPMap,**params)
-planner.run()
-        
+controller = get_controller("pid", **params)   
+
+# for i in range(1000):
+#     actions = {a:env.action_space(a).sample()*0 for a in env.env_id}
+#     for env_id in env.env_id:
+#         target = obs[env_id]['target']
+#         for ii,assign in enumerate(target[:,0]>0):
+#             if not assign:
+#                 continue
+#             if astarList[env_id][ii][0]==0:
+#                 start = np.round(obs[env_id]['agent'][ii,:2]).astype(int)
+#                 goal = np.round(target[ii,1:3]).astype(int)
+#                 planner = pmp.AStar(start=tuple(start), goal=tuple(goal), env=envPMPMap)   # create planner
+#                 cost, path, expand = planner.plan()  
+#                 astarList[env_id][ii] = (cost,list(reversed(path)),0)
+#                 # planner.plot.animation(path, str(planner), cost, expand)
+#             if astarList[env_id][ii][0]>0:
+#                 path = astarList[env_id][ii][1]
+#                 actuation,goal_reached = controller.plan(state=obs[env_id]['agent'][ii,:5],
+#                                                          goal=tuple(goal)+(0,),
+#                                                          num_timesteps=1,
+#                                                          path=path,
+#                                                          normalize=True)                
+#                 pathInd = astarList[env_id][ii][2]
+
+#                 if goal_reached:
+#                     astarList[env_id][ii] = (astarList[env_id][ii][0],path,pathInd+1)
+#                     if pathInd+1 >= len(path)-1:
+#                         astarList[env_id][ii] = (0,None,0)
+
+#                 actions[env_id][3*ii:3*ii+2] = actuation[0]
+#     print(actions)
+#     obs, rewards, dones, infos = env.step(actions)
+
+for i in range(1000):
+    actions = {a:env.action_space(a).sample()*0 for a in env.env_id}
+    for env_id in env.env_id:
+        target = obs[env_id]['target']
+        for ii,assign in enumerate(target[:,0]>0):
+            if not assign:
+                continue
+            if astarList[env_id][ii][0]==0:
+                start = np.round(obs[env_id]['agent'][ii,:2]).astype(int)
+                goal = np.round(target[ii,1:3]).astype(int)
+                planner = pmp.AStar(start=tuple(start), goal=tuple(goal), env=envPMPMap)   # create planner
+                cost, path, expand = planner.plan()  
+                astarList[env_id][ii] = (cost,list(reversed(path)),0)
+                # planner.plot.animation(path, str(planner), cost, expand)
+            if astarList[env_id][ii][0]>0:
+                path = astarList[env_id][ii][1]
+                pathInd = astarList[env_id][ii][2]
+                current_pos = obs[env_id]['agent'][ii,:2]
+                current_angle = obs[env_id]['agent'][ii,2]
+                diff = path[pathInd+1]-current_pos
+                desired_angle = np.arctan2(diff[1],diff[0])*180/np.pi
+
+                diffAngle = desired_angle - current_angle
+                diffAngle = (diffAngle + 180) % 360 -180
+                if(abs(diffAngle)> 5):
+                    actions[env_id][3*ii+1] = -diffAngle/180
+                else:
+                    mag = np.linalg.norm(diff,axis=-1)
+                    actions[env_id][3*ii] = 1
+                    if mag < 0.1:
+                        
+                        astarList[env_id][ii] = (astarList[env_id][ii][0],path,pathInd+1)
+                        if pathInd+1 >= len(path)-1:
+                            astarList[env_id][ii] = (0,None,0)
+    obs, rewards, dones, infos = env.step(actions)
+
+
+
+env.close()
+
+# control_factory = pmp.ControlFactory()
+# ii = 0
+# for env_id in env.env_id:
+#     target = obs[env_id]['target']
+#     start = np.round(obs[env_id]['agent'][ii,:3]).astype(int)
+#     goal = np.round(target[ii,1:3]).astype(int)
+#     goal = np.array([goal[0],goal[1],0])
+
+# planner = control_factory("pid", start=start, goal=goal, env=envPMPMap,
+#                           k_v_p=1, k_v_i=0.1, k_v_d=0.1,
+#                           k_w_p=1, k_w_i=0.1, k_w_d=0.1,
+#                           k_theta=0.75, **params)
+# planner.run()
+
+
+pass
