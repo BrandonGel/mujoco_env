@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "mujoco-env"
+name = "unity_python_env"
 version = "0.1.0"
 description = ""
 authors = ["Brandon"]
 readme = "README.md"
-packages = [{include = "mujoco_env"}]
+packages = [{include = "unity_python_env"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10.1,<=3.10.12"

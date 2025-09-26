@@ -1,4 +1,4 @@
-name: mujoco_env
+name: unity_python_env
 channels:
   - defaults
 dependencies:
